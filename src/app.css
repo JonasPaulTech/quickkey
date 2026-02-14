@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* Palette — warm dark */
+  --bg: #1a1816;
+  --surface: #23201d;
+  --surface-badge: rgba(255, 255, 255, 0.06);
+  --text-primary: #e8e0d4;
+  --text-muted: #7a7168;
+
+  /* Staff */
+  --staff-line: #5a534a;
+  --clef-color: #9a8e80;
+  --note-color: #e8e0d4;
+
+  /* Keyboard */
+  --key-white: #f0ebe4;
+  --key-white-hover: #e2dbd0;
+  --key-black: #2a2623;
+  --key-black-hover: #3d3730;
+  --key-border: #3a3530;
+  --key-label: #8a8078;
+
+  /* Feedback */
+  --feedback-correct: #4ecf8b;
+  --feedback-wrong: #e05555;
+
+  /* Typography */
+  --font-display: "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#app {
+  width: 100%;
+}
+
+/* Subtle noise texture on background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::selection {
+  background: rgba(78, 207, 139, 0.3);
+  color: inherit;
+}
