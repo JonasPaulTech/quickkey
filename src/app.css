@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
 :root {
   /* Palette — warm dark */
@@ -25,9 +25,15 @@
   --feedback-correct: #4ecf8b;
   --feedback-wrong: #e05555;
 
+  /* Sidebar */
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --accent-beginner: #7ab89b;
+  --accent-intermediate: #c9a96e;
+  --accent-expert: #d4735e;
+
   /* Typography */
-  --font-display: "DM Sans", system-ui, sans-serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Fredoka", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 

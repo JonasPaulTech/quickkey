@@ -127,25 +127,74 @@ function buildNotePool(): Note[] {
 const NOTE_POOL = buildNotePool();
 
 /**
- * Pick a random note and clef.
- * For treble clef, notes in A3–C6  (Ab3 at midi 56 through C6 at midi 84).
- * For bass clef, notes in C2–F#4  (C2 at midi 36 through F#4 at midi 66).
- * This keeps notes reasonably close to the staff without excessive ledger lines.
+ * Practice mode definitions.
  */
-export function randomNote(): { note: Note; clef: Clef } {
-  const clef: Clef = Math.random() < 0.5 ? "treble" : "bass";
+export type Mode = "treble-basics" | "bass-basics" | "intermediate" | "expert";
 
-  let pool: Note[];
-  if (clef === "treble") {
-    // Ab3 (midi 56) to C6 (midi 84)
-    pool = NOTE_POOL.filter((n) => n.midi >= 56 && n.midi <= 84);
-  } else {
-    // C2 (midi 36) to F#4 (midi 66)
-    pool = NOTE_POOL.filter((n) => n.midi >= 36 && n.midi <= 66);
+export interface ModeConfig {
+  id: Mode;
+  difficulty: "beginner" | "intermediate" | "expert";
+}
+
+export const MODES: ModeConfig[] = [
+  { id: "treble-basics", difficulty: "beginner" },
+  { id: "bass-basics", difficulty: "beginner" },
+  { id: "intermediate", difficulty: "intermediate" },
+  { id: "expert", difficulty: "expert" },
+];
+
+/**
+ * Pick a random note and clef based on the practice mode.
+ *
+ * Beginner treble: C4–F5 naturals only, treble clef
+ * Beginner bass:   G2–C4 naturals only, bass clef
+ * Intermediate:    C4–A5 / E2–C4 with accidentals, both clefs
+ * Expert:          Ab3–C6 / C2–F#4 with accidentals, both clefs
+ */
+export function randomNote(mode: Mode = "expert"): { note: Note; clef: Clef } {
+  switch (mode) {
+    case "treble-basics": {
+      // Naturals only, treble clef, C4 (midi 60) to F5 (midi 77)
+      const pool = NOTE_POOL.filter(
+        (n) => n.accidental === null && n.midi >= 60 && n.midi <= 77
+      );
+      return { note: pool[Math.floor(Math.random() * pool.length)], clef: "treble" };
+    }
+    case "bass-basics": {
+      // Naturals only, bass clef, G2 (midi 43) to C4 (midi 60)
+      const pool = NOTE_POOL.filter(
+        (n) => n.accidental === null && n.midi >= 43 && n.midi <= 60
+      );
+      return { note: pool[Math.floor(Math.random() * pool.length)], clef: "bass" };
+    }
+    case "intermediate": {
+      // Both clefs, accidentals included, moderate range (~1 ledger line)
+      const clef: Clef = Math.random() < 0.5 ? "treble" : "bass";
+      let pool: Note[];
+      if (clef === "treble") {
+        // C4 (midi 60) to A5 (midi 81)
+        pool = NOTE_POOL.filter((n) => n.midi >= 60 && n.midi <= 81);
+      } else {
+        // E2 (midi 40) to C4 (midi 60)
+        pool = NOTE_POOL.filter((n) => n.midi >= 40 && n.midi <= 60);
+      }
+      return { note: pool[Math.floor(Math.random() * pool.length)], clef };
+    }
+    case "expert":
+    default: {
+      // Full range, both clefs, all accidentals
+      const clef: Clef = Math.random() < 0.5 ? "treble" : "bass";
+      let pool: Note[];
+      if (clef === "treble") {
+        // Ab3 (midi 56) to C6 (midi 84)
+        pool = NOTE_POOL.filter((n) => n.midi >= 56 && n.midi <= 84);
+      } else {
+        // C2 (midi 36) to F#4 (midi 66)
+        pool = NOTE_POOL.filter((n) => n.midi >= 36 && n.midi <= 66);
+      }
+      return { note: pool[Math.floor(Math.random() * pool.length)], clef };
+    }
   }
-
-  const note = pool[Math.floor(Math.random() * pool.length)];
-  return { note, clef };
 }
 
 /**

@@ -146,7 +146,7 @@
   }
 
   .key-label {
-    font-size: 13px;
+    font-size: 14.5px;
     fill: var(--key-label);
     font-family: var(--font-mono);
     pointer-events: none;

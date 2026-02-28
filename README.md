@@ -1,47 +1,79 @@
-# Svelte + TS + Vite
+# Score Teacher
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+A minimalist web app for practicing reading sheet music faster. A random note appears on a treble or bass clef staff, and you identify it by clicking the corresponding key on a piano keyboard. Built for speed training with immediate visual feedback.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+- **SVG staff rendering** — treble and bass clef with note heads, ledger lines, and sharp/flat accidentals
+- **SVG piano keyboard** — clickable C2–C6 range with green/red color flash feedback
+- **Practice modes** with a sidebar for difficulty selection:
 
-## Need an official Svelte framework?
+  | Mode | Difficulty | Clef | Notes | Range |
+  |------|-----------|------|-------|-------|
+  | Treble | Beginner | Treble only | Naturals only | C4–F5 |
+  | Bass | Beginner | Bass only | Naturals only | G2–C4 |
+  | Both Clefs | Intermediate | Both | Sharps & flats | ~1 ledger line |
+  | Full Range | Expert | Both | All accidentals | Ab3–C6 / C2–F#4 |
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+- **Stats tracking** — current streak, best streak, rolling average response time (last 10 correct answers)
+- **LocalStorage persistence** — stats and selected mode survive page reloads
+- **Enharmonic equivalence** — both spellings accepted (e.g. F# and Gb)
+- **Localization** — English, German, and Korean. Auto-detects from browser language with a manual EN/DE/KO toggle in the sidebar. Language preference persists in localStorage.
 
-## Technical considerations
+## Tech stack
 
-**Why use this over SvelteKit?**
+- [Svelte 5](https://svelte.dev/) (runes API) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- Pure SVG rendering — no external music or notation libraries
+- DM Sans + JetBrains Mono fonts, warm dark theme
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## Getting started
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+```bash
+npm install
+npm run dev
+```
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+Open http://localhost:5173 in your browser.
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+## Scripts
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server with HMR |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Preview production build locally |
+| `npm run check` | Run svelte-check and TypeScript type checking |
 
-**Why include `.vscode/extensions.json`?**
+## Deploying as a systemd service
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+A unit file is included at `score-teacher.service`. To set it up:
 
-**Why enable `allowJs` in the TS template?**
+```bash
+# Symlink into systemd
+sudo ln -s /root/score-teacher/score-teacher.service /etc/systemd/system/score-teacher.service
 
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
+# Reload, start, and enable on boot
+sudo systemctl daemon-reload
+sudo systemctl start score-teacher
+sudo systemctl enable score-teacher
+```
 
-**Why is HMR not preserving my local component state?**
+The service builds the project and serves it on port 3300. Check status with `systemctl status score-teacher`.
 
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
+## Project structure
 
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```
+src/
+├── main.ts                  # Svelte 5 mount entry point
+├── app.css                  # Global styles, CSS variables, dark theme, fonts
+├── App.svelte               # Game loop, state management, localStorage, layout
+├── lib/
+│   ├── music.ts             # Note types, MIDI, staff positions, note pool, modes, keyboard layout
+│   └── i18n.ts              # Translations (EN/DE/KO), locale detection and persistence
+└── components/
+    ├── Staff.svelte          # SVG staff: lines, clef symbols, note head, ledger lines, accidentals
+    ├── Keyboard.svelte       # SVG piano: white/black keys, click handler, feedback
+    └── Sidebar.svelte        # Practice mode selection sidebar, language toggle
+score-teacher.service         # systemd unit file for production deployment
 ```
