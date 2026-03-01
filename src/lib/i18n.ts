@@ -20,6 +20,7 @@ export interface Translations {
     difficulty: Record<string, string>;
     modeLabel: Record<Mode, string>;
     modeDesc: Record<Mode, string>;
+    mobileBlockerText: string;
 }
 
 const en: Translations = {
@@ -48,6 +49,8 @@ const en: Translations = {
         intermediate: "Both clefs with sharps & flats",
         expert: "All notes, extended range",
     },
+    mobileBlockerText:
+        "A small web app for practicing reading sheet music faster. This site works best on bigger screens, so please try it on a desktop or tablet!",
 };
 
 const de: Translations = {
@@ -76,6 +79,8 @@ const de: Translations = {
         intermediate: "Beide Schl\u00FCssel mit Vorzeichen",
         expert: "Alle Noten, erweiterter Umfang",
     },
+    mobileBlockerText:
+        "Eine kleine Web-App, um Notenlesen zu \u00DCben. Diese Seite funktioniert am besten auf gr\u00F6\u00DFeren Bildschirmen \u2014 bitte versuch es auf einem Desktop oder Tablet!",
 };
 
 const ko: Translations = {
@@ -107,6 +112,8 @@ const ko: Translations = {
             "\uC591\uC190 \uC74C\uC790\uB9AC\uD45C, \uC62C\uB9BC\uD45C\uB0B4\uB9BC\uD45C \uD3EC\uD568",
         expert: "\uBAA8\uB4E0 \uC74C, \uD655\uC7A5\uB41C \uC74C\uC5ED",
     },
+    mobileBlockerText:
+        "\uC545\uBCF4 \uC77D\uAE30 \uC5F0\uC2B5\uC744 \uC704\uD55C \uC6F9 \uC571\uC785\uB2C8\uB2E4. \uD070 \uD654\uBA74\uC5D0\uC11C \uAC00\uC7A5 \uC798 \uC791\uB3D9\uD558\uB2C8, \uB370\uC2A4\uD06C\uD1B1\uC774\uB098 \uD0DC\uBE14\uB9BF\uC73C\uB85C \uC811\uC18D\uD574 \uC8FC\uC138\uC694!",
 };
 
 const allTranslations: Record<Locale, Translations> = { en, de, ko };

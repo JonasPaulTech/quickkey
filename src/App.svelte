@@ -195,6 +195,23 @@
   }
 </script>
 
+<div class="mobile-blocker">
+  <div class="mobile-blocker-content">
+    <div class="mobile-blocker-icon">
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="4" width="24" height="40" rx="3" stroke="currentColor" stroke-width="2.5" opacity="0.35" />
+        <rect x="28" y="12" width="44" height="32" rx="3" stroke="currentColor" stroke-width="2.5" />
+        <line x1="28" y1="38" x2="72" y2="38" stroke="currentColor" stroke-width="2" opacity="0.5" />
+        <circle cx="50" cy="42" r="1.5" fill="currentColor" opacity="0.5" />
+        <line x1="14" y1="38" x2="26" y2="38" stroke="currentColor" stroke-width="1.5" opacity="0.25" />
+        <circle cx="20" cy="41" r="1" fill="currentColor" opacity="0.25" />
+      </svg>
+    </div>
+    <h2 class="mobile-blocker-title">{t.appTitle}</h2>
+    <p class="mobile-blocker-text">{t.mobileBlockerText}</p>
+  </div>
+</div>
+
 <div class="layout">
   <Sidebar {mode} {locale} {t} onchange={handleModeChange} onlocalechange={handleLocaleChange} />
 
@@ -315,5 +332,67 @@
   .stat-value-avg {
     font-size: 1.43rem;
     font-weight: 500;
+  }
+
+  /* Mobile blocker — full-screen overlay on narrow viewports */
+  .mobile-blocker {
+    display: none;
+  }
+
+  @media (max-width: 1045px), (max-height: 705px) {
+    .mobile-blocker {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      padding: 32px;
+    }
+
+    .layout {
+      display: none !important;
+    }
+  }
+
+  .mobile-blocker-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 320px;
+    gap: 20px;
+  }
+
+  .mobile-blocker-icon {
+    width: 72px;
+    height: 72px;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .mobile-blocker-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobile-blocker-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .mobile-blocker-text {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
   }
 </style>
