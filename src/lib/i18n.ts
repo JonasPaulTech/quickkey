@@ -56,7 +56,7 @@ const de: Translations = {
     best: "Beste",
     avg: "\u00D8",
     trebleClef: "Violinschl\u00FCssel",
-    bassClef: "Bass",
+    bassClef: "Bassschl\u00FCssel",
     modesHeading: "Modi",
     language: "Sprache",
     difficulty: {
@@ -66,7 +66,7 @@ const de: Translations = {
     },
     modeLabel: {
         "treble-basics": "Violinschl\u00FCssel",
-        "bass-basics": "Bass",
+        "bass-basics": "Bassschl\u00FCssel",
         intermediate: "Beide Schl\u00FCssel",
         expert: "Voller Umfang",
     },
